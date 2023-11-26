@@ -10,7 +10,9 @@ typedef struct node_s
 	struct node_s *next;
 } node_t;
 
-void print_list(node_t *head);
+void print_list(node_t *);
+void free_list(node_t **);
 void add_node_at_head(node_t **, int);
+void add_node_at_tail(node_t **, int);
 
 #endif
