@@ -10,7 +10,7 @@ void print_list(node_t *head)
 		printf("[%d] -> ", tmp->data);
 		tmp = tmp->next;
 	}
-	printf("NULL\n\nDone printing!\n");
+	printf("NULL\n\nDone printing!\n\n");
 }
 
 void free_list(node_t **head)
@@ -24,7 +24,7 @@ void free_list(node_t **head)
 		free(*head);
 		*head = tmp;
 	}
-	printf("Done 100%!\n");
+	printf("Done 100%%!\n");
 }
 
 void add_node_at_head(node_t **head, int data)
@@ -61,4 +61,34 @@ void add_node_at_tail(node_t **head, int data)
 		tmp = tmp->next;
 	tmp->next = node;
 	node->next = NULL;
+}
+
+void add_node_at_index(node_t **head, int data, int idx)
+{
+	node_t *node, *tmp;
+	int i = 0;
+
+	if (!head)
+		return;
+	tmp = *head;
+	if (idx == 0)
+	{
+		add_node_at_head(head, data);
+		return;
+	}
+	while (tmp)
+	{
+		if (i++ == idx - 1)
+		{
+			node = malloc(sizeof(node_t));
+			if (!node)
+				return;
+			node->data = data;
+			node->next = tmp->next;
+			tmp->next = node;
+			return;
+		}
+		tmp = tmp->next;
+	}
+	printf("Invalid index\n");
 }
