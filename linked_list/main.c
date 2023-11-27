@@ -13,15 +13,15 @@ int main(void)
 	for (i = 0; i < sizeof(arr1) / sizeof(int); i++)
 		add_node_at_tail(&head, arr1[i]);
 	print_list(head);
-	add_node_at_index(&head, 5, 11);
+	add_node_at_index(&head, 5, 1);
 	print_list(head);
-	add_node_at_index(&head, 5, -1);
+	add_node_at_index(&head, 5, 6);
+	print_list(head);
+	delete_node_at_index(&head, 0);
 	print_list(head);
 	delete_node_at_head(&head);
 	print_list(head);
 	delete_node_at_tail(&head);
-	print_list(head);
-	delete_node_at_index(&head, 5);
 	print_list(head);
 	free_list(&head);
 	print_list(head);

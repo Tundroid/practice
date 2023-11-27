@@ -10,7 +10,7 @@ void print_list(node_t *head)
 		printf("[%d] -> ", tmp->data);
 		tmp = tmp->next;
 	}
-	printf("NULL\n\nDone printing!\n\n");
+	printf("NULL\n\nDone printing!\n");
 }
 
 void free_list(node_t **head)

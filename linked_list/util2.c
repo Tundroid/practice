@@ -23,43 +23,44 @@ void delete_node_at_tail(node_t **head)
 	if (!*head)
 		return;
 	tmp = *head;
-	while (tmp && tmp->next)
+	while (tmp)
+	{
+		if (tmp->next == NULL)
+		{
+			tmp = NULL;
+			break;
+		}
 		tmp = tmp->next;
-	tmp = NULL;
-
+	}
 	printf("tail\n");
 }
 
 void delete_node_at_index(node_t **head, int idx)
 {
-	node_t *tmp, *idx1, *idx2, *indx;
+	node_t *tmp, *prev_node = NULL;
 	int i = 0;
 
 	if (!head)
 		return;
 	tmp = *head;
+	if (idx == 0)
+	{
+		printf("invalid index\n\n");
+		return;
+	}
 	while (tmp)
 	{
-		i++;
 		if (i == idx - 1)
 		{
-			tmp = idx1;
-			continue;
+			prev_node = tmp;
 		}
 		if (i == idx)
 		{
-			tmp = indx;
-			continue;
+			prev_node->next = tmp->next;
 		}
-		if (i == idx + 1)
-		{
-			tmp = idx2;
-			continue;
-		}
+		i++;
 		tmp = tmp->next;
 	}
-	idx2->next = idx1;
-	indx = NULL;
 
 	printf("index\n");
 }
