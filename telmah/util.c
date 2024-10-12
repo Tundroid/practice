@@ -5,8 +5,7 @@
  */
 void print_menu(void)
 {
-	printf("Welcome to NaNa Car Rental!\n");
-	printf("Menu\n====\n");
+	printf("<<< Menu >>>\n============\n");
 	printf("1. Add new car for rent\n");
 	printf("2. Avail returned car\n");
 	printf("3. Send returned car for repairs\n");
@@ -14,7 +13,7 @@ void print_menu(void)
 	printf("5. Rent availabe car\n");
 	printf("6. Print inventory\n");
 	printf("7. Quit\n");
-	printf("Action: ");
+	printf("\nnana@Rental$: ");
 }
 
 /**

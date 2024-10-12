@@ -1,3 +1,24 @@
+/**
+ * @file main.c
+ * @brief Car rental management system with linked lists.
+ *
+ * This program manages car rentals using three linked lists:
+ * - Available cars (ordered by mileage)
+ * - Rented cars (ordered by return date)
+ * - Cars in repair
+ *
+ * The user can perform operations like adding, renting, returning, and transferring cars between lists.
+ * Charges are computed for returned cars, and lists are saved/loaded from text files upon exit/start.
+ *
+ * Dependencies:
+ * - nana.h: Header file that contains structure definitions, constants and functions prototypes.
+ * - util.c: C source file that contains function implementations.
+ *
+ * @version 1.0
+ * @date [Date]
+ * @author [Your Name]
+ */
+
 #include "nana.h"
 
 car_list_t *available_head = NULL;
@@ -13,6 +34,10 @@ car_list_t *repair_head = NULL;
 int main(void)
 {
 	int action;
+
+	printf("\n===================================");
+	printf("\n*** Welcome to Nana Car Rental! ***");
+	printf("\n===================================\n\n");
 
 	while (true)
 	{
