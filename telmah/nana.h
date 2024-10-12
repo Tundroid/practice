@@ -6,6 +6,10 @@
 #include <string.h>
 #include <stdbool.h>
 
+#define FLAT_RATE 80.0f
+#define FLAT_RATE_KM_MAX 200
+#define EXTRA_RATE_PER_KM 0.15f
+
 /**
  * struct car - singly linked list
  * @plate_number: car plate number
@@ -60,6 +64,7 @@ void list_insert(car_list_t **, car_list_t *, rental_list_enum_t);
 car_list_t *list_remove(car_list_t **, char *, rental_list_enum_t);
 void rent_car(void);
 void repair_ret_car(void);
+void return_car(rental_list_enum_t);
 void print_inventory(void);
 void print_menu(void);
 // size_t print_list(const list_t *h);

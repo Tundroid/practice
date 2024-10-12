@@ -123,7 +123,7 @@ void add_new_car(void)
 	car_node->car.exp_ret_date = -1;
 	car_node->next = NULL;
 
-	
+	list_insert(&available_head, car_node, AVAILABE);
 }
 
 /**
@@ -140,52 +140,15 @@ void rent_car(void)
 	printf("Enter expected return date(yyyymmdd): ");
 	scanf("%d", &available_head->car.exp_ret_date);
 
-	if (!rented_head)
-	{
-		rented_head = available_head;
-		available_head = available_head->next;
-		rented_head->next = NULL;
-	}
-	else
-	{
-		car_list_t *tmp = rented_head;
-		car_list_t *prev = NULL;
-
-		while (tmp)
-		{
-			if (available_head->car.exp_ret_date <= tmp->car.exp_ret_date)
-			{
-				if (!prev)
-				{
-					rented_head = available_head;
-					available_head = available_head->next;
-					rented_head->next = tmp;
-				}
-				else
-				{
-					prev->next = available_head;
-					available_head = available_head->next;
-					prev->next->next = tmp;
-				}
-				break;
-			}
-			else if (!tmp->next)
-			{
-				tmp->next = available_head;
-				available_head = available_head->next;
-				tmp->next->next = NULL;
-				break;
-			}
-			prev = tmp;
-			tmp = tmp->next;
-		}
-	}
+	car_list_t *car_node = list_remove(&available_head, NULL, AVAILABE);
+	list_insert(&rented_head, car_node, RENTED);
 }
 
 /**
- * avail_ret_car - adds a returned car to available list
+ * return_car - adds a returned car to available / repair list
+ * @flag: the destination list
  */
-void avail_ret_car(void)
+void return_car(rental_list_enum_t flag)
 {
 	if (!rented_head)
 	{
@@ -194,72 +157,33 @@ void avail_ret_car(void)
 	}
 
 	char plate_number[10];
-	int mileage;
+	int mileage, old_mileage, extra_kms;
+	float charge = 0.0f;
 
 	printf("Enter plate number: ");
 	scanf("%s", plate_number);
 
-	car_list_t *tmp = rented_head;
+	car_list_t *car_node = list_remove(&rented_head, plate_number, RENTED);
+	old_mileage = car_node->car.mileage;
 
-	while (tmp)
+	while (true)
 	{
-		if (strcmp(tmp->car.plate_number, plate_number) == 0)
-		{
-			while (true)
-			{
-				printf("Enter returned mileage: ");
-				scanf("%d", &mileage);
-				if (mileage > tmp->car.mileage)
-					break;
-				fprintf(stderr, "Returned mileage must be greater mileage at the time of rental.\n");
-			}
-			add_new_car();
+		printf("Enter returned mileage: ");
+		scanf("%d", &mileage);
+		if (old_mileage > mileage)
 			break;
-		}
+		fprintf(stderr, "Returned mileage must be greater mileage at the time of rental.\n");
 	}
 
-	fprintf(stderr, "No car matches plate number %s\n", plate_number);
+	car_node->car.mileage = mileage;
+	car_node->car.exp_ret_date = -1;
+	list_insert(&rented_head, car_node, RENTED);
 
-	if (!rented_head)
-	{
-		rented_head = available_head;
-		available_head = available_head->next;
-		rented_head->next = NULL;
-	}
-	else
-	{
-		car_list_t *tmp = rented_head;
-		car_list_t *prev = NULL;
+	extra_kms =  mileage - old_mileage - FLAT_RATE_KM_MAX;
 
-		while (tmp)
-		{
-			if (available_head->car.exp_ret_date <= tmp->car.exp_ret_date)
-			{
-				if (!prev)
-				{
-					rented_head = available_head;
-					available_head = available_head->next;
-					rented_head->next = tmp;
-				}
-				else
-				{
-					prev->next = available_head;
-					available_head = available_head->next;
-					prev->next->next = tmp;
-				}
-				break;
-			}
-			else if (!tmp->next)
-			{
-				tmp->next = available_head;
-				available_head = available_head->next;
-				tmp->next->next = NULL;
-				break;
-			}
-			prev = tmp;
-			tmp = tmp->next;
-		}
-	}
+	charge = FLAT_RATE + (extra_kms > 0 ? extra_kms * EXTRA_RATE_PER_KM : 0.0f);
+
+	printf("%s is returned and available for rent out, charge was $%0.2f\n", charge);
 }
 
 /**
