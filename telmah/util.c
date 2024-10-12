@@ -95,13 +95,14 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 						*head = (*head)->next;
 					else
 						prev = tmp->next;
+					ret->next = NULL;
 					return (ret);
 				}
 			}
 			fprintf(stderr, "No car matches plate number %s\n", plate_number);
 		}
 	}
-	return NULL;
+	return (NULL);
 }
 
 /**
