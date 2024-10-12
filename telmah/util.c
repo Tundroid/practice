@@ -67,7 +67,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 {
 	if (!head || !*head)
 	{
-		fprintf(stderr, "/!\\ No or empty list!");
+		fprintf(stderr, "\a/!\\ No or empty list!");
 	}
 	else
 	{
@@ -98,7 +98,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 					return (ret);
 				}
 			}
-			fprintf(stderr, "/!\\ No car matches plate number %s!\n", plate_number);
+			fprintf(stderr, "\a/!\\ No car matches plate number %s!\n", plate_number);
 		}
 	}
 	return (NULL);
@@ -113,7 +113,7 @@ void add_new_car(void)
 
 	if (!car_node)
 	{
-		fprintf(stderr, "/!\\ Could not allocate memory for new car node!\n");
+		fprintf(stderr, "\a/!\\ Could not allocate memory for new car node!\n");
 		return;
 	}
 
@@ -137,7 +137,7 @@ void rent_car(void)
 {
 	if (!available_head)
 	{
-		fprintf(stderr, "/!\\ No available cars to rent!");
+		fprintf(stderr, "\a/!\\ No available cars to rent!");
 		return;
 	}
 
@@ -165,7 +165,7 @@ void return_car(rental_list_enum_t flag)
 {
 	if (!rented_head)
 	{
-		fprintf(stderr, "/!\\ No rented cars to return!");
+		fprintf(stderr, "\a/!\\ No rented cars to return!");
 		return;
 	}
 
@@ -189,7 +189,7 @@ void return_car(rental_list_enum_t flag)
 		scanf("%d", &mileage);
 		if (old_mileage < mileage)
 			break;
-		fprintf(stderr, "/!\\ Returned mileage must be greater mileage at the time of rental!\n");
+		fprintf(stderr, "\a/!\\ Returned mileage must be greater mileage at the time of rental!\n");
 	}
 
 	car_node->car.mileage = mileage;
@@ -221,7 +221,7 @@ void avail_rep_car(void)
 {
 	if (!repair_head)
 	{
-		fprintf(stderr, "/!\\ No cars in repair!");
+		fprintf(stderr, "\a/!\\ No cars in repair!");
 		return;
 	}
 
