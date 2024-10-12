@@ -177,10 +177,9 @@ void return_car(rental_list_enum_t flag)
 
 	car_node->car.mileage = mileage;
 	car_node->car.exp_ret_date = -1;
-	list_insert(&rented_head, car_node, RENTED);
+	list_insert(flag == AVAILABE ? &available_head : &repair_head, car_node, flag);
 
 	extra_kms =  mileage - old_mileage - FLAT_RATE_KM_MAX;
-
 	charge = FLAT_RATE + (extra_kms > 0 ? extra_kms * EXTRA_RATE_PER_KM : 0.0f);
 
 	printf("%s is returned and available for rent out, charge was $%0.2f\n", charge);

@@ -50,8 +50,8 @@ int main(void)
 				add_new_car();
 				break;
 			case 2:
-			break;
 			case 3:
+				return_car(action = 2 ? AVAILABE : IN_REPAIR);
 			break;
 			case 4:
 			break;
