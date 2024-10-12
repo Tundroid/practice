@@ -67,7 +67,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 {
 	if (!head || !*head)
 	{
-		fprintf(stderr, "No or empty list!");
+		fprintf(stderr, "/!\\ No or empty list!");
 	}
 	else
 	{
@@ -98,7 +98,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 					return (ret);
 				}
 			}
-			fprintf(stderr, "No car matches plate number %s!\n", plate_number);
+			fprintf(stderr, "/!\\ No car matches plate number %s!\n", plate_number);
 		}
 	}
 	return (NULL);
@@ -113,7 +113,7 @@ void add_new_car(void)
 
 	if (!car_node)
 	{
-		fprintf(stderr, "Could not allocate memory for new car node!\n");
+		fprintf(stderr, "/!\\ Could not allocate memory for new car node!\n");
 		return;
 	}
 
@@ -126,7 +126,7 @@ void add_new_car(void)
 	car_node->next = NULL;
 
 	list_insert(&available_head, car_node, AVAILABLE);
-	printf("*** New car %s with mileage %d added to AVAILABLE list ***\n",
+	printf("\n*** New car %s with mileage %d added to AVAILABLE list ***",
 		   car_node->car.plate_number, car_node->car.mileage);
 }
 
@@ -137,7 +137,7 @@ void rent_car(void)
 {
 	if (!available_head)
 	{
-		fprintf(stderr, "No available cars to rent!");
+		fprintf(stderr, "/!\\ No available cars to rent!");
 		return;
 	}
 
@@ -151,9 +151,9 @@ void rent_car(void)
 	if (car_node)
 	{
 		list_insert(&rented_head, car_node, RENTED);
-		printf("*** Rented out car %s with mileage %d and expected return on %d ***\n",
+		printf("\n*** Rented out car %s with mileage %d and expected return on %d ***",
 		car_node->car.plate_number, car_node->car.mileage, car_node->car.exp_ret_date);
-		printf("*** %s moved from AVAILABLE list to RENTED list ***\n",	car_node->car.plate_number);
+		printf("\n*** %s moved from AVAILABLE list to RENTED list ***",	car_node->car.plate_number);
 	}
 }
 
@@ -165,7 +165,7 @@ void return_car(rental_list_enum_t flag)
 {
 	if (!rented_head)
 	{
-		fprintf(stderr, "No rented cars to return!");
+		fprintf(stderr, "/!\\ No rented cars to return!");
 		return;
 	}
 
@@ -176,14 +176,12 @@ void return_car(rental_list_enum_t flag)
 	printf("Enter plate number: ");
 	scanf("%s", plate_number);
 
-	printf("\nHere...0\n");
 	car_list_t *car_node = list_remove(&rented_head, plate_number, RENTED);
 
 	if (!car_node)
 		return;
 
 	old_mileage = car_node->car.mileage;
-	printf("\nHere...1\n");
 
 	while (true)
 	{
@@ -191,7 +189,7 @@ void return_car(rental_list_enum_t flag)
 		scanf("%d", &mileage);
 		if (old_mileage < mileage)
 			break;
-		fprintf(stderr, "Returned mileage must be greater mileage at the time of rental!\n");
+		fprintf(stderr, "/!\\ Returned mileage must be greater mileage at the time of rental!\n");
 	}
 
 	car_node->car.mileage = mileage;
@@ -204,15 +202,15 @@ void return_car(rental_list_enum_t flag)
 
 	if (flag == AVAILABLE)
 	{
-		printf("*** %s is returned with mileage %d and available for rent out, charge is $%0.2f ***\n",
+		printf("\n*** %s is returned with mileage %d and available for rent out, charge is $%0.2f ***",
 				car_node->car.plate_number, car_node->car.mileage, charge);
-		printf("*** %s moved from RENTED list to AVAILABLE list ***\n",	car_node->car.plate_number);
+		printf("\n*** %s moved from RENTED list to AVAILABLE list ***",	car_node->car.plate_number);
 	}
 	else
 	{
-		printf("*** %s is returned with mileage %d but under repairs, charge is $%0.2f ***\n",
+		printf("\n*** %s is returned with mileage %d but under repairs, charge is $%0.2f ***",
 				car_node->car.plate_number, car_node->car.mileage, charge);
-		printf("*** %s moved from RENTED list to IN-REPAIR list ***\n",	car_node->car.plate_number);
+		printf("\n*** %s moved from RENTED list to IN-REPAIR list ***",	car_node->car.plate_number);
 	}
 }
 
@@ -223,7 +221,7 @@ void avail_rep_car(void)
 {
 	if (!repair_head)
 	{
-		fprintf(stderr, "No cars in repair!");
+		fprintf(stderr, "/!\\ No cars in repair!");
 		return;
 	}
 
@@ -238,7 +236,7 @@ void avail_rep_car(void)
 		return;
 
 	list_insert(&available_head, car_node, AVAILABLE);
-	printf("*** %s repaired and moved from IN-REPAIR list to AVAILABLE list ***\n",	car_node->car.plate_number);
+	printf("\n*** %s repaired and moved from IN-REPAIR list to AVAILABLE list ***",	car_node->car.plate_number);
 }
 
 /**

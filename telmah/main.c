@@ -68,7 +68,7 @@ int main(void)
 				exit(0);
 				break;
 			default:
-				printf("Invalid option\n");
+				fprintf(stderr, "/!\\ Invalid option!\n");
 				break;
 		}
 		printf("\n");
