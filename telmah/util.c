@@ -85,6 +85,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 
 			while (tmp)
 			{
+				printf("\nHere...2\n");
 				if (strcmp(tmp->car.plate_number, plate_number) == 0)
 				{
 					car_list_t *ret = tmp;
@@ -115,6 +116,7 @@ void add_new_car(void)
 		return;
 	}
 
+	bzero(car_node->car.plate_number, 10);
 	printf("Enter plate number: ");
 	scanf("%s", car_node->car.plate_number);
 	printf("Enter milleage for %s: ", car_node->car.plate_number);
@@ -163,26 +165,32 @@ void return_car(rental_list_enum_t flag)
 	printf("Enter plate number: ");
 	scanf("%s", plate_number);
 
+	printf("\nHere...0\n");
 	car_list_t *car_node = list_remove(&rented_head, plate_number, RENTED);
 	old_mileage = car_node->car.mileage;
+	printf("\nHere...1\n");
 
 	while (true)
 	{
 		printf("Enter returned mileage: ");
 		scanf("%d", &mileage);
-		if (old_mileage > mileage)
+		if (old_mileage < mileage)
 			break;
 		fprintf(stderr, "Returned mileage must be greater mileage at the time of rental.\n");
 	}
 
 	car_node->car.mileage = mileage;
 	car_node->car.exp_ret_date = -1;
+	printf("\nFlag: %d\n", flag);
 	list_insert(flag == AVAILABE ? &available_head : &repair_head, car_node, flag);
 
 	extra_kms =  mileage - old_mileage - FLAT_RATE_KM_MAX;
 	charge = FLAT_RATE + (extra_kms > 0 ? extra_kms * EXTRA_RATE_PER_KM : 0.0f);
 
-	printf("%s is returned and available for rent out, charge was $%0.2f\n", charge);
+	if (flag == AVAILABE)
+		printf("%s is returned and available for rent out, charge is $%0.2f\n", charge);
+	else
+		printf("%s is returned and under repais, charge is $%0.2f\n", charge);
 }
 
 /**

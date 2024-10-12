@@ -50,18 +50,19 @@ int main(void)
 				add_new_car();
 				break;
 			case 2:
+				return_car(AVAILABE);
+				break;
 			case 3:
-				return_car(action = 2 ? AVAILABE : IN_REPAIR);
-			break;
+				return_car(IN_REPAIR);
+				break;
 			case 4:
-			break;
+				break;
 			case 5:
 				rent_car();
 				break;
-			break;
 			case 6:
 				print_inventory();
-			break;
+				break;
 			case 7:
 				exit(0);
 				break;
