@@ -37,7 +37,7 @@ int main(void)
 
 	printf("\n===================================");
 	printf("\n*** Welcome to Nana Car Rental! ***");
-	printf("\n===================================\n\n");
+	printf("\n===================================\n");
 
 	while (true)
 	{

@@ -5,7 +5,7 @@
  */
 void print_menu(void)
 {
-	printf("<<< Menu >>>\n============\n");
+	printf("\n<<< Menu >>>\n============\n");
 	printf("1. Add new car for rent\n");
 	printf("2. Avail returned car\n");
 	printf("3. Send returned car for repairs\n");
