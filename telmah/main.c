@@ -15,8 +15,8 @@
  * - util.c: C source file that contains function implementations.
  *
  * @version 1.0
- * @date [Date]
- * @author [Your Name]
+ * @date 2024-10-12
+ * @author Telmah Tantoh
  */
 
 #include "nana.h"
