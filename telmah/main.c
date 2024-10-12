@@ -56,6 +56,7 @@ int main(void)
 				return_car(IN_REPAIR);
 				break;
 			case 4:
+				avail_rep_car();
 				break;
 			case 5:
 				rent_car();

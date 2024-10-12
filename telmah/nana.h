@@ -59,18 +59,11 @@ extern car_list_t *repair_head;
 
 void add_new_car(void);
 void avail_rep_car(void);
-void avail_ret_car(void);
 void list_insert(car_list_t **, car_list_t *, rental_list_enum_t);
 car_list_t *list_remove(car_list_t **, char *, rental_list_enum_t);
 void rent_car(void);
-void repair_ret_car(void);
 void return_car(rental_list_enum_t);
 void print_inventory(void);
 void print_menu(void);
-// size_t print_list(const list_t *h);
-// size_t list_len(const list_t *h);
-// list_t *add_node(list_t **head, const char *str);
-// list_t *add_node_end(list_t **head, const char *str);
-// void free_list(list_t *head);
 
 #endif

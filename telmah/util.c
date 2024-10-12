@@ -194,6 +194,26 @@ void return_car(rental_list_enum_t flag)
 }
 
 /**
+ * avail_rep_car - adds a repaired car to available list
+ */
+void avail_rep_car(void)
+{
+	if (!repair_head)
+	{
+		fprintf(stderr, "No cars in repair!");
+		return;
+	}
+
+	char plate_number[10];
+
+	printf("Enter plate number: ");
+	scanf("%s", plate_number);
+
+	car_list_t *car_node = list_remove(&repair_head, plate_number, IN_REPAIR);
+	list_insert(&available_head, car_node, AVAILABE);
+}
+
+/**
  * print_inventory - prints all car rentail inventory
  */
 void print_inventory(void)
