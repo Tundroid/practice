@@ -25,7 +25,7 @@ int main(void)
 				add_new_car();
 				break;
 			case 2:
-				return_car(AVAILABE);
+				return_car(AVAILABLE);
 				break;
 			case 3:
 				return_car(IN_REPAIR);
