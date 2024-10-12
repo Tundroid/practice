@@ -77,6 +77,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 		if (flag == AVAILABE)
 		{
 			*head = (*head)->next;
+			tmp->next = NULL;
 			return (tmp);
 		}
 		else
@@ -142,6 +143,8 @@ void rent_car(void)
 	printf("Enter expected return date(yyyymmdd): ");
 	scanf("%d", &available_head->car.exp_ret_date);
 
+	/* NULL is passed here because the function will
+	 not be searching through the list */
 	car_list_t *car_node = list_remove(&available_head, NULL, AVAILABE);
 	list_insert(&rented_head, car_node, RENTED);
 }
