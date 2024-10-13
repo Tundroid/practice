@@ -85,7 +85,6 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 
 			while (tmp)
 			{
-				printf("Caught here\n");
 				if (strcmp(tmp->car.plate_number, plate_number) == 0)
 				{
 					car_list_t *ret = tmp;
