@@ -120,8 +120,14 @@ void add_new_car(void)
 
 	printf("Enter plate number: ");
 	scanf("%s", car_node->car.plate_number);
-	printf("Enter milleage for %s: ", car_node->car.plate_number);
-	scanf("%d", &car_node->car.mileage);
+	while (true)
+	{
+		printf("Enter milleage for %s: ", car_node->car.plate_number);
+		scanf("%d", &car_node->car.mileage);
+		if (car_node->car.mileage >= 0)
+			break;
+		fprintf(stderr, "\a/!\\ Mileage cannot be negative!\n");
+	}
 
 	car_node->car.exp_ret_date = -1;
 	car_node->next = NULL;
