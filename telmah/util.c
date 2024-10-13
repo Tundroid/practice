@@ -295,7 +295,6 @@ void serialize(void)
 			h = h->next;
 		}
 		save_to_file(data, filenames[i]);
-		printf("%s", data);
 		free(data);
 		printf("\n+--------------+----------+----------------------+\n");
 	}
