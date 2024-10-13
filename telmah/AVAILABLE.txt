@@ -1,0 +1,2 @@
+Plate Number, Mileage, Expected Return Date
+SKFN,100,-1
