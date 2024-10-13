@@ -118,7 +118,46 @@ void add_new_car(void)
 		return;
 	}
 
-	printf("Enter plate number: ");
+	while (true)
+	{
+		printf(PROMPT_PLATE_NUMBER);
+		char c;
+		int i = 0;
+		bool alpha_check = false;
+		bool number_check = false;
+		bool length_check = true;
+		while ((c = getchar()) != EOF)
+		{
+			if (i < 9)
+			{
+				if (isalpha(c))
+					alpha_check = true;
+				if (isdigit(c))
+					number_check = true;
+				if (!isalnum(c))
+				{
+					fprintf(stderr, "/!\\ Input must be Aa-Az and 0-9!\n");
+					break;
+				}
+				car_node->car.plate_number[i++] = c;
+			}
+			else
+			{
+				length_check = false;
+				fprintf(stderr, "/!\\ Input exceeds length limit of 8 characters!\n");
+				break;
+			}
+		}
+		if (strlen(car_node->car.plate_number) < 2)
+		{
+			length_check = false;
+			fprintf(stderr, "/!\\ Input length below limit of 2 characters!\n");
+			break;
+		}
+		if (alpha_check && number_check && length_check)
+			break;
+	}
+
 	scanf("%s", car_node->car.plate_number);
 	while (true)
 	{
@@ -148,7 +187,7 @@ void rent_car(void)
 		return;
 	}
 
-	printf("Enter expected return date(yyyymmdd): ");
+	printf("Enter expected return date (yyyymmdd): ");
 	scanf("%d", &available_head->car.exp_ret_date);
 
 	/* NULL is passed here because the function will
@@ -180,7 +219,7 @@ void return_car(rental_list_enum_t flag)
 	int mileage, old_mileage, extra_kms;
 	float charge = 0.0f;
 
-	printf("Enter plate number: ");
+	printf(PROMPT_PLATE_NUMBER);
 	scanf("%s", plate_number);
 
 	car_list_t *car_node = list_remove(&rented_head, plate_number, RENTED);
@@ -234,7 +273,7 @@ void avail_rep_car(void)
 
 	char plate_number[10];
 
-	printf("Enter plate number: ");
+	printf(PROMPT_PLATE_NUMBER);
 	scanf("%s", plate_number);
 
 	car_list_t *car_node = list_remove(&repair_head, plate_number, IN_REPAIR);

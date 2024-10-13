@@ -7,10 +7,12 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <ctype.h>
 
 #define FLAT_RATE 80.0f
 #define FLAT_RATE_KM_MAX 200
 #define EXTRA_RATE_PER_KM 0.15f
+#define PROMPT_PLATE_NUMBER "Enter plate number (2-8 characters of ONLY letters and numbers): "
 
 /**
  * struct car - structure for rental cars
