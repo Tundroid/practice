@@ -13,7 +13,7 @@ void print_menu(void)
 	printf("5. Rent availabe car\n");
 	printf("6. Print inventory\n");
 	printf("7. Quit\n");
-	printf("\nnana@Rental$: ");
+	printf("\nnana@Rental$ ");
 }
 
 /**
