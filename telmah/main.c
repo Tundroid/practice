@@ -35,6 +35,8 @@ int main(void)
 {
 	int action;
 
+	load_from_file();
+
 	printf("\n===================================");
 	printf("\n*** Welcome to Nana Car Rental! ***");
 	printf("\n===================================\n");
@@ -65,9 +67,8 @@ int main(void)
 				print_inventory();
 				break;
 			case 7:
-				// serialize();
-				load_from_file();
-				// exit(0);
+				serialize();
+				exit(0);
 				break;
 			default:
 				fprintf(stderr, "\a/!\\ Invalid option!\n");
