@@ -1,0 +1,2 @@
+Plate Number, Mileage, Expected Return Date
+SK0001,230,-1
