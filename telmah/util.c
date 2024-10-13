@@ -329,25 +329,27 @@ void load_from_file(void)
 
 	for (int i = 0; i < 3; i++)
 	{
-		file = fopen(filenames[i], "r");
-		fgets(line_buffer, 50, file); // skip headers
-		while (fgets(line_buffer, 50, file))
+		if (file = fopen(filenames[i], "r"))
 		{
-			car_list_t *car_node = malloc(sizeof(car_list_t));
-
-			if (!car_node)
+			fgets(line_buffer, 50, file); // skip headers
+			while (fgets(line_buffer, 50, file))
 			{
-				fprintf(stderr, "\a/!\\ Could not allocate memory for car node!\n");
-				return;
+				car_list_t *car_node = malloc(sizeof(car_list_t));
+
+				if (!car_node)
+				{
+					fprintf(stderr, "\a/!\\ Could not allocate memory for car node!\n");
+					return;
+				}
+
+				bzero(car_node->car.plate_number, 9);
+				strcpy(car_node->car.plate_number, strtok(line_buffer, ",\n"));
+				car_node->car.mileage = atoi(strtok(NULL, ",\n"));
+				car_node->car.exp_ret_date = atoi(strtok(NULL, ",\n"));
+
+				list_insert(rental_list[i], car_node, i);
 			}
-
-			bzero(car_node->car.plate_number, 9);
-			strcpy(car_node->car.plate_number, strtok(line_buffer, ",\n"));
-			car_node->car.mileage = atoi(strtok(NULL, ",\n"));
-			car_node->car.exp_ret_date = atoi(strtok(NULL, ",\n"));
-
-			list_insert(rental_list[i], car_node, i);
+			fclose(file);
 		}
-		fclose(file);
 	}
 }
