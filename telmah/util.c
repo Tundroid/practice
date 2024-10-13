@@ -283,7 +283,6 @@ void serialize(void)
 
 		data = malloc(strlen(header) + 1);
 		strcpy(data, header);
-		printf("(((%s)))\n", filenames[i]);
 		while (h)
 		{
 			bzero(line_buffer, sizeof(line_buffer));
