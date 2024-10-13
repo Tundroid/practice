@@ -92,7 +92,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 					if (!prev)
 						*head = (*head)->next;
 					else
-						prev = tmp->next;
+						prev->next = tmp->next;
 					ret->next = NULL;
 					return (ret);
 				}
