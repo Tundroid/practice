@@ -65,7 +65,9 @@ int main(void)
 				print_inventory();
 				break;
 			case 7:
-				exit(0);
+				// serialize();
+				load_from_file();
+				// exit(0);
 				break;
 			default:
 				fprintf(stderr, "\a/!\\ Invalid option!\n");

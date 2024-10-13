@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #define FLAT_RATE 80.0f
 #define FLAT_RATE_KM_MAX 200
@@ -20,7 +22,7 @@
  */
 typedef struct car
 {
-	char plate_number[10];
+	char plate_number[9];
 	int mileage;
 	int exp_ret_date;
 } car_t;
@@ -61,9 +63,12 @@ void add_new_car(void);
 void avail_rep_car(void);
 void list_insert(car_list_t **, car_list_t *, rental_list_enum_t);
 car_list_t *list_remove(car_list_t **, char *, rental_list_enum_t);
+void load_from_file(void);
 void print_inventory(void);
 void print_menu(void);
 void rent_car(void);
 void return_car(rental_list_enum_t);
+void save_to_file(const char *, const char *);
+void serialize(void);
 
 #endif

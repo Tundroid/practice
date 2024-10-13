@@ -1,0 +1,3 @@
+Plate Number, Mileage, Expected Return Date
+Vee,200,2020
+SKFN,100,2021

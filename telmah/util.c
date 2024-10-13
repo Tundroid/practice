@@ -151,8 +151,8 @@ void rent_car(void)
 	{
 		list_insert(&rented_head, car_node, RENTED);
 		printf("\n*** Rented out car %s with mileage %d and expected return on %d ***",
-		car_node->car.plate_number, car_node->car.mileage, car_node->car.exp_ret_date);
-		printf("\n*** %s moved from AVAILABLE list to RENTED list ***",	car_node->car.plate_number);
+			   car_node->car.plate_number, car_node->car.mileage, car_node->car.exp_ret_date);
+		printf("\n*** %s moved from AVAILABLE list to RENTED list ***", car_node->car.plate_number);
 	}
 }
 
@@ -202,14 +202,14 @@ void return_car(rental_list_enum_t flag)
 	if (flag == AVAILABLE)
 	{
 		printf("\n*** %s is returned with mileage %d and available for rent out, charge is $%0.2f ***",
-				car_node->car.plate_number, car_node->car.mileage, charge);
-		printf("\n*** %s moved from RENTED list to AVAILABLE list ***",	car_node->car.plate_number);
+			   car_node->car.plate_number, car_node->car.mileage, charge);
+		printf("\n*** %s moved from RENTED list to AVAILABLE list ***", car_node->car.plate_number);
 	}
 	else
 	{
 		printf("\n*** %s is returned with mileage %d but under repairs, charge is $%0.2f ***",
-				car_node->car.plate_number, car_node->car.mileage, charge);
-		printf("\n*** %s moved from RENTED list to IN-REPAIR list ***",	car_node->car.plate_number);
+			   car_node->car.plate_number, car_node->car.mileage, charge);
+		printf("\n*** %s moved from RENTED list to IN-REPAIR list ***", car_node->car.plate_number);
 	}
 }
 
@@ -235,7 +235,7 @@ void avail_rep_car(void)
 		return;
 
 	list_insert(&available_head, car_node, AVAILABLE);
-	printf("\n*** %s repaired and moved from IN-REPAIR list to AVAILABLE list ***",	car_node->car.plate_number);
+	printf("\n*** %s repaired and moved from IN-REPAIR list to AVAILABLE list ***", car_node->car.plate_number);
 }
 
 /**
@@ -261,5 +261,96 @@ void print_inventory(void)
 			h = h->next;
 		}
 		printf("+--------------+----------+----------------------+\n");
+	}
+}
+
+/**
+ * serialize - convert rental car linked lists to csv
+ */
+void serialize(void)
+{
+	char *filenames[] = {"AVAILABLE.txt", "RENTED.txt", "REPAIR.txt"};
+	car_list_t *rental_list[] = {available_head, rented_head, repair_head};
+	char line_buffer[30]; // 30 because max of plate # is 8, milleage is 10, date is 8, 3 commas and \0
+	char *header = "Plate Number, Mileage, Expected Return Date\n";
+
+	char *data;
+	int data_len;
+
+	for (int i = 0; i < 3; i++)
+	{
+		car_list_t *h = rental_list[i];
+
+		data = malloc(strlen(header) + 1);
+		strcpy(data, header);
+		printf("(((%s)))\n", filenames[i]);
+		while (h)
+		{
+			bzero(line_buffer, sizeof(line_buffer));
+			sprintf(line_buffer, "%s,", h->car.plate_number);
+			sprintf(line_buffer + strlen(line_buffer), "%d,", h->car.mileage);
+			sprintf(line_buffer + strlen(line_buffer), "%d\n", h->car.exp_ret_date);
+			data_len = strlen(data);
+			data = realloc(data, strlen(data) + strlen(line_buffer) + 1);
+			strcat(data, line_buffer);
+			h = h->next;
+		}
+		save_to_file(data, filenames[i]);
+		printf("%s", data);
+		free(data);
+		printf("\n+--------------+----------+----------------------+\n");
+	}
+}
+
+/**
+ * save_to_file - write serialized data to text file as csv
+ * @data: to be saved
+ * @filename: of text file
+ */
+void save_to_file(const char *data, const char *filename)
+{
+	ssize_t _open, _write;
+
+	if (filename)
+	{
+		_open = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+		if (data)
+			_write = write(_open, data, strlen(data));
+		close(_open);
+	}
+}
+
+/**
+ * load_from_file - loads csv data from txt files
+ */
+void load_from_file(void)
+{
+	char *filenames[] = {"AVAILABLE.txt", "RENTED.txt", "REPAIR.txt"};
+	car_list_t **rental_list[] = {&available_head, &rented_head, &repair_head};
+	char line_buffer[50]; // 30 because max of plate # is 8, milleage is 10, date is 8, 3 commas and \0
+	FILE *file;
+
+	for (int i = 0; i < 3; i++)
+	{
+		file = fopen(filenames[i], "r");
+		fgets(line_buffer, 50, file); // skip headers
+		while (fgets(line_buffer, 50, file))
+		{
+			car_list_t *car_node = malloc(sizeof(car_list_t));
+
+			if (!car_node)
+			{
+				fprintf(stderr, "\a/!\\ Could not allocate memory for car node!\n");
+				return;
+			}
+
+			bzero(car_node->car.plate_number, 9);
+			strcpy(car_node->car.plate_number, strtok(line_buffer, ",\n"));
+			car_node->car.mileage = atoi(strtok(NULL, ",\n"));
+			car_node->car.exp_ret_date = atoi(strtok(NULL, ",\n"));
+
+			list_insert(rental_list[i], car_node, i);
+		}
+		fclose(file);
 	}
 }
