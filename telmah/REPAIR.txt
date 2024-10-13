@@ -1,2 +1,0 @@
-Plate Number, Mileage, Expected Return Date
-Felix,200,2029
