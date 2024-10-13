@@ -37,9 +37,9 @@ int main(void)
 
 	load_from_file();
 
-	printf("\n===================================");
-	printf("\n*** Welcome to Nana Car Rental! ***");
-	printf("\n===================================\n");
+	printf("\n========================================");
+	printf("\n*** Welcome to Nana Car Rental v1.0! ***");
+	printf("\n========================================\n");
 
 	while (true)
 	{
