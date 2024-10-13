@@ -1,1 +1,4 @@
 Plate Number, Mileage, Expected Return Date
+Nana,290,-1
+Hack,900,-1
+SKFN,1567,-1
