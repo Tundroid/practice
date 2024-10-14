@@ -8,7 +8,7 @@ CFLAGS = -Wall -std=c99 -pedantic
 LFLAGS =
 
 # Source files
-SRCS = main.c util.c
+SRCS = main.c utils.c
 
 # Header files
 HDRS = nana.h
