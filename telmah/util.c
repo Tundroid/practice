@@ -350,6 +350,12 @@ void load_from_file(void)
 
 				bzero(car_node->car.plate_number, 9);
 				strcpy(car_node->car.plate_number, strtok(line_buffer, ",\n"));
+				if (exists(car_node->car.plate_number))
+				{
+					fprintf(stderr, "/!\\ Duplicate encountered, %s already exists!\n", car_node->car.plate_number);
+					fprintf(stderr, "Skipping... %s", car_node->car.plate_number);
+					continue;
+				}
 				car_node->car.mileage = atoi(strtok(NULL, ",\n"));
 				car_node->car.exp_ret_date = atoi(strtok(NULL, ",\n"));
 
