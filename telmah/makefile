@@ -20,14 +20,14 @@ OBJS = $(SRCS:.c=.o)
 EXEC = nana
 
 # Default target
-all: $(EXEC)
+all: $(OBJS) $(EXEC)
 
 # Compile object files
 %.o: %.c $(HDRS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Link object files
-$(EXEC): $(OBJS)
+$(EXEC):
 	$(CC) $(LFLAGS) $(OBJS) -o $@
 
 # Clean
