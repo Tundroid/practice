@@ -72,6 +72,7 @@ car_list_t *list_remove(car_list_t **, char *, rental_list_enum_t);
 void load_from_file(void);
 void print_inventory(void);
 void print_menu(void);
+void prompt_date(int *);
 void prompt_plate_number(char *);
 void rent_car(void);
 void return_car(rental_list_enum_t);
