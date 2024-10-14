@@ -148,8 +148,7 @@ void rent_car(void)
 		return;
 	}
 
-	printf("Enter expected return date (yyyymmdd): ");
-	scanf("%d", &available_head->car.exp_ret_date);
+	prompt_date(&available_head->car.exp_ret_date);
 
 	/* NULL is passed here because the function will
 	 not be searching through the list */
@@ -431,10 +430,80 @@ void prompt_plate_number(char *plate_number)
 }
 
 /**
+ * prompt_date - prompts and validate date from user
+ * @date: pointer to where input will be stored
+ */
+void prompt_date(int *date)
+{
+	while (true)
+	{
+		int day, month, year;
+
+		printf("Enter expected return date (yyyymmdd): ");
+		scanf("%d", date);
+
+		day = *date % 100;
+		month = (*date - day) / 100 % 100;
+		year = ((*date - day) / 100 - month) / 100;
+
+		if (day < 1 || day > 31)
+		{
+			fprintf(stderr, "Day %d is invalid!\n", day);
+		}
+		else if (month < 1 || month > 12)
+		{
+			fprintf(stderr, "Month %d is invalid!\n", month);
+		}
+		else if (year < 1000 || year > 9999)
+		{
+			fprintf(stderr, "Year %d is invalid!\n", year);
+		}
+		else
+		{
+			if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31)
+			{
+				fprintf(stderr, "Month %d has only 30 days!\n", month);
+			}
+			else if (month == 2)
+			{
+				if (day > 29)
+				{
+					fprintf(stderr, "Month %d can have only up to 29 days!\n", month);
+				}
+				else
+				{
+					if (!is_leap_year(year) && day > 28)
+					{
+						fprintf(stderr, "Month %d can have only up to 28 days in a leap year (%d)\n", month, year);
+						continue;
+					}
+					break;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+}
+
+/**
+ * is_leap_year - checks if @year is leap
+ * @year: to check for leapness
+ *
+ * Return: true is @year is leap, otherwise, false
+ */
+bool is_leap_year(int year)
+{
+	return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+}
+
+/**
  * exists - checks in @plate_number exists in any of the lists
  * @plate_number: to be check in all three lists
  *
- * Return: true if exists otherwise false
+ * Return: true if @plate_number exists, otherwise, false
  */
 bool exists(char *plate_number)
 {

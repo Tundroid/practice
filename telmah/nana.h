@@ -66,6 +66,7 @@ extern car_list_t *repair_head;
 void add_new_car(void);
 void avail_rep_car(void);
 bool exists(char *);
+bool is_leap_year(int);
 void list_insert(car_list_t **, car_list_t *, rental_list_enum_t);
 car_list_t *list_remove(car_list_t **, char *, rental_list_enum_t);
 void load_from_file(void);
