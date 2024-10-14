@@ -13,6 +13,7 @@
 #define FLAT_RATE_KM_MAX 200
 #define EXTRA_RATE_PER_KM 0.15f
 #define PROMPT_PLATE_NUMBER "Enter plate number (2-8 characters of ONLY letters and numbers): "
+#define PLATE_BUFFER_LEN 9
 
 /**
  * struct car - structure for rental cars
@@ -24,7 +25,7 @@
  */
 typedef struct car
 {
-	char plate_number[9];
+	char plate_number[PLATE_BUFFER_LEN];
 	int mileage;
 	int exp_ret_date;
 } car_t;

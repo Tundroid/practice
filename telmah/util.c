@@ -121,15 +121,22 @@ void add_new_car(void)
 	while (true)
 	{
 		printf(PROMPT_PLATE_NUMBER);
+
 		char c;
 		int i = 0;
 		bool alpha_check = false;
 		bool number_check = false;
 		bool length_check = true;
-		while ((c = getchar()) != EOF)
+		char buffer[1024];
+		scanf("%s", buffer);
+
+		bzero(car_node->car.plate_number, PLATE_BUFFER_LEN);
+		while (c = buffer[i])
 		{
-			if (i < 9)
+			printf("here\n");
+			if (i < PLATE_BUFFER_LEN - 1)
 			{
+				printf("%d, %d\n", i, PLATE_BUFFER_LEN);
 				if (isalpha(c))
 					alpha_check = true;
 				if (isdigit(c))
@@ -152,13 +159,19 @@ void add_new_car(void)
 		{
 			length_check = false;
 			fprintf(stderr, "/!\\ Input length below limit of 2 characters!\n");
-			break;
+		}
+		else if (alpha_check && !number_check)
+		{
+			fprintf(stderr, "/!\\ Input missing at least a number!\n");
+		}
+		else if (!alpha_check && number_check)
+		{
+			fprintf(stderr, "/!\\ Input missing at least a letter!\n");
 		}
 		if (alpha_check && number_check && length_check)
 			break;
 	}
 
-	scanf("%s", car_node->car.plate_number);
 	while (true)
 	{
 		printf("Enter milleage for %s: ", car_node->car.plate_number);
