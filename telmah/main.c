@@ -36,7 +36,7 @@ int main(void)
 
 	printf("Loading data from file(s)...\n");
 	load_from_file();
-	printf("Loading complete 100%%!");
+	printf("Loading complete 100%%!\n");
 
 	printf("\n========================================");
 	printf("\n*** Welcome to Nana Car Rental v1.0! ***");

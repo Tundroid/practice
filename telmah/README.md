@@ -32,7 +32,7 @@ The system manages three lists of cars:
 
 1. **Compile the program** using a C compiler:
    ```bash
-   gcc main.c util.c -o nana_car_rental
+   gcc -Wall -std=c99 -pedantic main.c util.c -o nana_car_rental 
 2. **Run the program**:
    ```bash
    ./nana_car_rental

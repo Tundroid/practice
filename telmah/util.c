@@ -282,7 +282,6 @@ void serialize(void)
 	char *header = "Plate Number, Mileage, Expected Return Date\n";
 
 	char *data;
-	int data_len;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -297,7 +296,6 @@ void serialize(void)
 			sprintf(line_buffer, "%s,", h->car.plate_number);
 			sprintf(line_buffer + strlen(line_buffer), "%d,", h->car.mileage);
 			sprintf(line_buffer + strlen(line_buffer), "%d\n", h->car.exp_ret_date);
-			data_len = strlen(data);
 			data = realloc(data, strlen(data) + strlen(line_buffer) + 1);
 			strcat(data, line_buffer);
 			h = h->next;
@@ -314,13 +312,13 @@ void serialize(void)
  */
 void save_to_file(const char *data, const char *filename)
 {
-	ssize_t _open, _write;
+	ssize_t _open;
 
 	if (filename)
 	{
 		_open = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 		if (data)
-			_write = write(_open, data, strlen(data));
+			write(_open, data, strlen(data));
 		close(_open);
 	}
 }
@@ -339,7 +337,7 @@ void load_from_file(void)
 	for (int i = 0; i < 3; i++)
 	{
 		printf("Loading %s ...\n", car_list[i]);
-		if (file = fopen(filenames[i], "r"))
+		if ((file = fopen(filenames[i], "r")))
 		{
 			fgets(line_buffer, 50, file); // skip headers
 			while (fgets(line_buffer, 50, file))
@@ -357,7 +355,7 @@ void load_from_file(void)
 				if (exists(car_node->car.plate_number))
 				{
 					fprintf(stderr, "/!\\ Duplicate encountered, %s already exists!\n", car_node->car.plate_number);
-					fprintf(stderr, "Skipping... %s", car_node->car.plate_number);
+					fprintf(stderr, "Skipping... %s\n", car_node->car.plate_number);
 					continue;
 				}
 				car_node->car.mileage = atoi(strtok(NULL, ",\n"));
@@ -382,7 +380,6 @@ void prompt_plate_number(char *plate_number)
 		int i = 0;
 		bool alpha_check = false;
 		bool number_check = false;
-		bool length_check = true;
 		bool failed = false;
 		char buffer[1024];
 
@@ -391,7 +388,7 @@ void prompt_plate_number(char *plate_number)
 
 		bzero(plate_number, PLATE_BUFFER_LEN);
 
-		while (c = buffer[i])
+		while ((c = buffer[i]))
 		{
 			if (i < PLATE_BUFFER_LEN - 1)
 			{
@@ -412,7 +409,6 @@ void prompt_plate_number(char *plate_number)
 			}
 			else
 			{
-				length_check = false;
 				failed = true;
 				fprintf(stderr, "/!\\ Input exceeds length limit of 8 characters!\n");
 				break;
@@ -421,26 +417,15 @@ void prompt_plate_number(char *plate_number)
 		if (!failed)
 		{
 			if (strlen(plate_number) < 2)
-			{
-				length_check = false;
 				fprintf(stderr, "/!\\ Input length below limit of 2 characters!\n");
-			}
 			else if (alpha_check && !number_check)
-			{
 				fprintf(stderr, "/!\\ Input missing at least a number!\n");
-			}
 			else if (!alpha_check && number_check)
-			{
 				fprintf(stderr, "/!\\ Input missing at least a letter!\n");
-			}
 			else if (exists(plate_number))
-			{
 				fprintf(stderr, "/!\\ Duplicate encountered, %s already exists!\n", plate_number);
-			}
 			else
-			{
 				break;
-			}
 		}
 	}
 }
