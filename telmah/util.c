@@ -443,7 +443,7 @@ void prompt_plate_number(char *plate_number)
  */
 bool exists(char *plate_number)
 {
-	car_list_t **rental_list[] = {&available_head, &rented_head, &repair_head};
+	car_list_t *rental_list[] = {available_head, rented_head, repair_head};
 
 	for (int i = 0; i < 3; i++)
 	{
