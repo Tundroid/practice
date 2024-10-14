@@ -423,10 +423,37 @@ void prompt_plate_number(char *plate_number)
 			{
 				fprintf(stderr, "/!\\ Input missing at least a letter!\n");
 			}
+			else if (exists(plate_number))
+			{
+				fprintf(stderr, "/!\\ Duplicate encountered, %s already exists!\n", plate_number);
+			}
 			else
 			{
 				break;
 			}
 		}
 	}
+}
+
+/**
+ * exists - checks in @plate_number exists in any of the lists
+ * @plate_number: to be check in all three lists
+ *
+ * Return: true if exists otherwise false
+ */
+bool exists(char *plate_number)
+{
+	car_list_t **rental_list[] = {&available_head, &rented_head, &repair_head};
+
+	for (int i = 0; i < 3; i++)
+	{
+		car_list_t *tmp = rental_list[i];
+
+		while (tmp)
+		{
+			if (strcmp(tmp->car.plate_number, plate_number) == 0)
+				return (true);
+		}
+	}
+	return (false);
 }

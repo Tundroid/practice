@@ -1,6 +1,5 @@
 Plate Number, Mileage, Expected Return Date
-SK0008,0,-1
-SK0007,0,-1
-SK0009,10,-1
+SKFN0003,21,-1
 SK0004,289,-1
 SK0003,769,-1
+SK0002,8974453,-1
