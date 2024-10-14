@@ -8,7 +8,7 @@ CFLAGS = -Wall -std=c99 -pedantic
 LFLAGS =
 
 # Source files
-SRCS = main.c utils.c
+SRCS = main.c util.c
 
 # Header files
 HDRS = nana.h
@@ -40,4 +40,4 @@ run: $(EXEC)
 
 # Dependencies
 main.o: nana.h
-utils.o: nana.h
+util.o: nana.h
