@@ -25,7 +25,6 @@ car_list_t *available_head = NULL;
 car_list_t *rented_head = NULL;
 car_list_t *repair_head = NULL;
 
-
 /**
  * main - check the code
  *
@@ -35,7 +34,9 @@ int main(void)
 {
 	int action;
 
+	printf("Loading data from file(s)...\n");
 	load_from_file();
+	printf("Loading complete 100%%!");
 
 	printf("\n========================================");
 	printf("\n*** Welcome to Nana Car Rental v1.0! ***");
@@ -48,33 +49,35 @@ int main(void)
 		printf("\n");
 		switch (action)
 		{
-			case 1:
-				add_new_car();
-				break;
-			case 2:
-				return_car(AVAILABLE);
-				break;
-			case 3:
-				return_car(IN_REPAIR);
-				break;
-			case 4:
-				avail_rep_car();
-				break;
-			case 5:
-				rent_car();
-				break;
-			case 6:
-				print_inventory();
-				break;
-			case 7:
-				serialize();
-				exit(0);
-				break;
-			default:
-				fprintf(stderr, "\a/!\\ Invalid option!\n");
-				break;
+		case 1:
+			add_new_car();
+			break;
+		case 2:
+			return_car(AVAILABLE);
+			break;
+		case 3:
+			return_car(IN_REPAIR);
+			break;
+		case 4:
+			avail_rep_car();
+			break;
+		case 5:
+			rent_car();
+			break;
+		case 6:
+			print_inventory();
+			break;
+		case 7:
+			printf("Saving data to file(s)...\n");
+			serialize();
+			printf("Saving complete 100%%!");
+			exit(0);
+			break;
+		default:
+			fprintf(stderr, "\a/!\\ Invalid option!\n");
+			break;
 		}
 		printf("\n");
 	}
-    return (0);
+	return (0);
 }

@@ -276,6 +276,7 @@ void print_inventory(void)
 void serialize(void)
 {
 	char *filenames[] = {"AVAILABLE.txt", "RENTED.txt", "REPAIR.txt"};
+	char *car_list[] = {"Available Cars", "Rented Cars", "In-repair Cars"};
 	car_list_t *rental_list[] = {available_head, rented_head, repair_head};
 	char line_buffer[30]; // 30 because max of plate # is 8, milleage is 10, date is 8, 3 commas and \0
 	char *header = "Plate Number, Mileage, Expected Return Date\n";
@@ -287,6 +288,7 @@ void serialize(void)
 	{
 		car_list_t *h = rental_list[i];
 
+		printf("Saving %s ...\n", car_list[i]);
 		data = malloc(strlen(header) + 1);
 		strcpy(data, header);
 		while (h)
@@ -329,12 +331,14 @@ void save_to_file(const char *data, const char *filename)
 void load_from_file(void)
 {
 	char *filenames[] = {"AVAILABLE.txt", "RENTED.txt", "REPAIR.txt"};
+	char *car_list[] = {"Available Cars", "Rented Cars", "In-repair Cars"};
 	car_list_t **rental_list[] = {&available_head, &rented_head, &repair_head};
 	char line_buffer[50]; // 30 because max of plate # is 8, milleage is 10, date is 8, 3 commas and \0
 	FILE *file;
 
 	for (int i = 0; i < 3; i++)
 	{
+		printf("Loading %s ...\n", car_list[i]);
 		if (file = fopen(filenames[i], "r"))
 		{
 			fgets(line_buffer, 50, file); // skip headers
