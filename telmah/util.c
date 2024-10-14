@@ -453,6 +453,7 @@ bool exists(char *plate_number)
 		{
 			if (strcmp(tmp->car.plate_number, plate_number) == 0)
 				return (true);
+			tmp = tmp->next;
 		}
 	}
 	return (false);
