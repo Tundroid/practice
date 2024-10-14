@@ -118,67 +118,7 @@ void add_new_car(void)
 		return;
 	}
 
-
-
-	while (true)
-	{
-		printf(PROMPT_PLATE_NUMBER);
-
-		char c;
-		int i = 0;
-		bool alpha_check = false;
-		bool number_check = false;
-		bool length_check = true;
-		bool failed = false;
-		char buffer[1024];
-		scanf("%s", buffer);
-
-		bzero(car_node->car.plate_number, PLATE_BUFFER_LEN);
-		while (c = buffer[i])
-		{
-			if (i < PLATE_BUFFER_LEN - 1)
-			{
-				if (isalpha(c))
-					alpha_check = true;
-				if (isdigit(c))
-					number_check = true;
-				if (!isalnum(c))
-				{
-					failed = true;
-					fprintf(stderr, "/!\\ Input must be Aa-Az and 0-9!\n");
-					break;
-				}
-				car_node->car.plate_number[i++] = c;
-			}
-			else
-			{
-				length_check = false;
-				failed = true;
-				fprintf(stderr, "/!\\ Input exceeds length limit of 8 characters!\n");
-				break;
-			}
-		}
-		if (!failed)
-		{
-			if (strlen(car_node->car.plate_number) < 2)
-			{
-				length_check = false;
-				fprintf(stderr, "/!\\ Input length below limit of 2 characters!\n");
-			}
-			else if (alpha_check && !number_check)
-			{
-				fprintf(stderr, "/!\\ Input missing at least a number!\n");
-			}
-			else if (!alpha_check && number_check)
-			{
-				fprintf(stderr, "/!\\ Input missing at least a letter!\n");
-			}
-			else
-			{
-				break;
-			}
-		}
-	}
+	prompt_plate_number(car_node->car.plate_number);
 
 	while (true)
 	{
@@ -236,12 +176,11 @@ void return_car(rental_list_enum_t flag)
 		return;
 	}
 
-	char plate_number[10];
+	char plate_number[PLATE_BUFFER_LEN];
 	int mileage, old_mileage, extra_kms;
 	float charge = 0.0f;
 
-	printf(PROMPT_PLATE_NUMBER);
-	scanf("%s", plate_number);
+	prompt_plate_number(plate_number);
 
 	car_list_t *car_node = list_remove(&rented_head, plate_number, RENTED);
 
@@ -292,10 +231,9 @@ void avail_rep_car(void)
 		return;
 	}
 
-	char plate_number[10];
+	char plate_number[PLATE_BUFFER_LEN];
 
-	printf(PROMPT_PLATE_NUMBER);
-	scanf("%s", plate_number);
+	prompt_plate_number(plate_number);
 
 	car_list_t *car_node = list_remove(&repair_head, plate_number, IN_REPAIR);
 
@@ -424,7 +362,7 @@ void load_from_file(void)
 
 /**
  * prompt_plate_number - prompts and validate plate number from user
- * @plate_number: pointer to where input will be stored 
+ * @plate_number: pointer to where input will be stored
  */
 void prompt_plate_number(char *plate_number)
 {
