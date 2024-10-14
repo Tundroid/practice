@@ -285,12 +285,14 @@ void serialize(void)
 	for (int i = 0; i < 3; i++)
 	{
 		car_list_t *h = rental_list[i];
+		car_list_t *tmp;
 
 		printf("Saving %s ...\n", car_list[i]);
 		data = malloc(strlen(header) + 1);
 		strcpy(data, header);
 		while (h)
 		{
+			tmp = h;
 			bzero(line_buffer, sizeof(line_buffer));
 			sprintf(line_buffer, "%s,", h->car.plate_number);
 			sprintf(line_buffer + strlen(line_buffer), "%d,", h->car.mileage);
@@ -298,6 +300,7 @@ void serialize(void)
 			data = realloc(data, strlen(data) + strlen(line_buffer) + 1);
 			strcat(data, line_buffer);
 			h = h->next;
+			free(tmp);
 		}
 		save_to_file(data, filenames[i]);
 		free(data);
