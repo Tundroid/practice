@@ -386,7 +386,10 @@ void prompt_plate_number(char *plate_number)
 			if (i < PLATE_BUFFER_LEN - 1)
 			{
 				if (isalpha(c))
+				{
 					alpha_check = true;
+					c = toupper(c);
+				}
 				if (isdigit(c))
 					number_check = true;
 				if (!isalnum(c))
