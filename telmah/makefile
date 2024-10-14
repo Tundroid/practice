@@ -40,4 +40,4 @@ run: $(EXEC)
 
 # Dependencies
 main.o: nana.h
-util.o: nana.h
+utils.o: nana.h
