@@ -29,7 +29,7 @@ void list_insert(car_list_t **head, car_list_t *car_node, rental_list_enum_t fla
 		car_node->next = *head;
 		*head = car_node;
 	}
-	else if (flag != IN_REPAIR)
+	else
 	{
 		car_list_t *tmp = *head;
 		car_list_t *prev = NULL;
