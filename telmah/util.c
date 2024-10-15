@@ -42,8 +42,10 @@ void list_insert(car_list_t *car_node, rental_list_enum_t flag)
 
 	if (!head || flag == IN_REPAIR)
 	{
+		printf("Is null %d\n", !head);
 		car_node->next = head;
 		head = car_node;
+		printf("Is null %d\n", !head);
 	}
 	else
 	{
