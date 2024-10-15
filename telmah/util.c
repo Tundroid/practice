@@ -114,7 +114,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 /**
  * add_new_car - adds a new car node to available list
  */
-void add_new_car(void)
+void add_new_car(void)J
 {
 	car_list_t *car_node = malloc(sizeof(car_list_t));
 
@@ -124,7 +124,7 @@ void add_new_car(void)
 		return;
 	}
 
-	prompt_plate_number(car_node->car.plate_number);
+	prompt_plate_number(car_node->car.plate_number, true);
 
 	while (true)
 	{
@@ -185,7 +185,7 @@ void return_car(rental_list_enum_t flag)
 	int mileage, old_mileage, extra_kms;
 	float charge = 0.0f;
 
-	prompt_plate_number(plate_number);
+	prompt_plate_number(plate_number, false);
 
 	car_list_t *car_node = list_remove(&rented_head, plate_number, RENTED);
 
@@ -238,7 +238,7 @@ void avail_rep_car(void)
 
 	char plate_number[PLATE_BUFFER_LEN];
 
-	prompt_plate_number(plate_number);
+	prompt_plate_number(plate_number, false);
 
 	car_list_t *car_node = list_remove(&repair_head, plate_number, IN_REPAIR);
 
@@ -390,8 +390,9 @@ void load_from_file(void)
 /**
  * prompt_plate_number - prompts and validate plate number from user
  * @plate_number: pointer to where input will be stored
+ * @lookup: control whether function to lookup existence of @plate_number
  */
-void prompt_plate_number(char *plate_number)
+void prompt_plate_number(char *plate_number, bool lookup)
 {
 	while (true)
 	{
@@ -446,7 +447,7 @@ void prompt_plate_number(char *plate_number)
 				fprintf(stderr, "/!\\ Input missing at least a number!\n");
 			else if (!alpha_check && number_check)
 				fprintf(stderr, "/!\\ Input missing at least a letter!\n");
-			else if (exists(plate_number))
+			else if (lookup && exists(plate_number))
 				fprintf(stderr, "/!\\ Duplicate encountered, %s already exists!\n", plate_number);
 			else
 				break;

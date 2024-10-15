@@ -74,7 +74,7 @@ void load_from_file(void);
 void print_inventory(void);
 void print_menu(void);
 void prompt_date(int *);
-void prompt_plate_number(char *);
+void prompt_plate_number(char *, bool);
 void rent_car(void);
 void return_car(rental_list_enum_t);
 void save_to_file(const char *, const char *);
