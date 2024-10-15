@@ -255,9 +255,6 @@ void avail_rep_car(void)
  */
 void print_inventory(void)
 {
-	char *car_list[] = {"Available Cars", "Rented Cars", "In-repair Cars"};
-	car_list_t *rental_list[] = {available_head, rented_head, repair_head};
-
 	for (int i = 0; i < 3; i++)
 	{
 		printf("(((%s)))\n", car_list[i]);
@@ -265,7 +262,7 @@ void print_inventory(void)
 		printf("| Plate Number | Milleage | Expected Return Date |\n");
 		printf("+--------------+----------+----------------------+\n");
 
-		car_list_t *h = rental_list[i];
+		car_list_t *h = *rental_list[i];
 
 		while (h)
 		{
@@ -282,23 +279,18 @@ void print_inventory(void)
  */
 void serialize(void)
 {
-	char *filenames[] = {"AVAILABLE.txt", "RENTED.txt", "REPAIR.txt"};
-	char *car_list[] = {"Available Cars", "Rented Cars", "In-repair Cars"};
-	car_list_t *rental_list[] = {available_head, rented_head, repair_head};
 	char line_buffer[30]; // 30 because max of plate # is 8, milleage is 10, date is 8, 3 commas and \0
-	char *header = "Plate Number, Mileage, Expected Return Date\n";
-
 	char *data;
 
 	for (int i = 0; i < 3; i++)
 	{
-		car_list_t *h = rental_list[i];
+		car_list_t *h = *rental_list[i];
 		car_list_t *tmp;
 
 		printf("Saving %s ...\n", car_list[i]);
 
-		data = malloc(strlen(header) + 1);
-		strcpy(data, header);
+		data = malloc(strlen(HEADER) + 1);
+		strcpy(data, HEADER);
 
 		while (h)
 		{
@@ -532,7 +524,7 @@ bool exists(char *plate_number)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		car_list_t *tmp = rental_list[i];
+		car_list_t *tmp = *rental_list[i];
 
 		while (tmp)
 		{

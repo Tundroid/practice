@@ -15,6 +15,7 @@
 #define EXTRA_RATE_PER_KM 0.15f
 #define PROMPT_PLATE_NUMBER "Enter plate number (2-8 characters of ONLY letters and numbers): "
 #define PLATE_BUFFER_LEN 9
+#define HEADER "Plate Number, Mileage, Expected Return Date\n"
 
 /**
  * struct car - structure for rental cars
@@ -69,7 +70,7 @@ const char *filenames[] = {"AVAILABLE.txt",
 const char *car_list[] = {"Available Cars",
 						  "Rented Cars",
 						  "In-repair Cars"};
-const car_list_t **rental_list[] = {&available_head,
+car_list_t **rental_list[] = {&available_head,
 									&rented_head,
 									&repair_head};
 
