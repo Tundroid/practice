@@ -36,7 +36,9 @@ void list_insert(car_list_t **head, car_list_t *car_node, rental_list_enum_t fla
 
 		while (tmp)
 		{
-			bool compare = flag == AVAILABLE ? car_node->car.mileage <= tmp->car.mileage : car_node->car.exp_ret_date <= tmp->car.exp_ret_date;
+			bool compare = flag == AVAILABLE ? car_node->car.mileage <= tmp->car.mileage
+											: car_node->car.exp_ret_date <= tmp->car.exp_ret_date;
+
 			if (compare)
 			{
 				car_node->next = tmp;
