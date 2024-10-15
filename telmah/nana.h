@@ -66,7 +66,7 @@ extern car_list_t *repair_head;
 
 extern const char *filenames[];
 extern const char *car_list[];
-extern car_list_t **rental_list[3];
+extern car_list_t **rental_list[];
 
 void add_new_car(void);
 void avail_rep_car(void);
