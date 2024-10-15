@@ -1,4 +1,5 @@
 nana.h
+
 #ifndef NANA_LIB_2024_10_10
 #define NANA_LIB_2024_10_10
 
@@ -81,7 +82,9 @@ void save_to_file(const char *, const char *);
 void serialize(void);
 
 #endif
-util.h
+
+util.c
+
 #include "nana.h"
 
 /**
@@ -608,7 +611,11 @@ bool exists(char *plate_number)
 		}
 	}
 	return (false);
-}main.c
+}
+
+main.c
+
+
 /**
  * @file main.c
  * @brief Car rental management system with linked lists.
