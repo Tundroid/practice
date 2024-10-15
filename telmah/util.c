@@ -1,5 +1,15 @@
 #include "nana.h"
 
+const char *filenames[] = {"AVAILABLE.txt",
+						   "RENTED.txt",
+						   "REPAIR.txt"};
+const char *car_list[] = {"Available Cars",
+						  "Rented Cars",
+						  "In-repair Cars"};
+car_list_t **rental_list[] = {&available_head,
+									&rented_head,
+									&repair_head};
+
 /**
  * print_menu - prints app menu
  */
