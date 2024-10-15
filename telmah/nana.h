@@ -64,13 +64,13 @@ extern car_list_t *available_head;
 extern car_list_t *rented_head;
 extern car_list_t *repair_head;
 
-static const char *filenames[] = {"AVAILABLE.txt",
+inline const char *filenames[] = {"AVAILABLE.txt",
 						   "RENTED.txt",
 						   "REPAIR.txt"};
-static const char *car_list[] = {"Available Cars",
+inline onst char *car_list[] = {"Available Cars",
 						  "Rented Cars",
 						  "In-repair Cars"};
-sy car_list_t **rental_list[] = {&available_head,
+inlinecar_list_t **rental_list[] = {&available_head,
 									&rented_head,
 									&repair_head};
 
