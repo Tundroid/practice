@@ -29,6 +29,9 @@
 int main(void)
 {
 	int action;
+	printf("1. %p\n", available_head);
+	printf("2. %p\n", &available_head);
+	printf("3. %p\n", rental_list[0]);
 
 	printf("Loading data from file(s)...\n");
 	load_from_file();
