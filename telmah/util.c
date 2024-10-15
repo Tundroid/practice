@@ -36,7 +36,7 @@ void print_menu(void)
  */
 void list_insert(car_list_t *car_node, rental_list_enum_t flag)
 {
-	car_list_t *head = rental_list[flag];
+	car_list_t *head = rental_list[(int)flag];
 
 	if (!head || flag == IN_REPAIR)
 	{
