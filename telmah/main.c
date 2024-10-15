@@ -28,14 +28,9 @@
  */
 int main(void)
 {
-
-	rental_list[AVAILABLE] = &available_head;
-	rental_list[RENTED] = &rented_head;
-	rental_list[IN_REPAIR] = &repair_head;
 	int action;
 	printf("1. %p\n", available_head);
-	printf("2. %p\n", &available_head);
-	printf("3. %p\n", rental_list[0]);
+	
 
 	printf("Loading data from file(s)...\n");
 	load_from_file();
