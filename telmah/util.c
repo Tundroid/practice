@@ -24,7 +24,11 @@ void print_menu(void)
  */
 void list_insert(car_list_t **head, car_list_t *car_node, rental_list_enum_t flag)
 {
-	if (!*head || flag == IN_REPAIR)
+	if (!head)
+	{
+		fprintf(stderr, "\a/!\\ No list!");
+	}
+	else if (!*head || flag == IN_REPAIR)
 	{
 		car_node->next = *head;
 		*head = car_node;
@@ -37,7 +41,7 @@ void list_insert(car_list_t **head, car_list_t *car_node, rental_list_enum_t fla
 		while (tmp)
 		{
 			bool compare = flag == AVAILABLE ? car_node->car.mileage <= tmp->car.mileage
-											: car_node->car.exp_ret_date <= tmp->car.exp_ret_date;
+											 : car_node->car.exp_ret_date <= tmp->car.exp_ret_date;
 
 			if (compare)
 			{
@@ -153,7 +157,7 @@ void rent_car(void)
 	prompt_date(&available_head->car.exp_ret_date);
 
 	/* NULL is passed here because the function will
-	 not be searching through the list */
+	 not be searching through the list bur rather removes the head if available */
 	car_list_t *car_node = list_remove(&available_head, NULL, AVAILABLE);
 
 	if (car_node)
@@ -196,7 +200,7 @@ void return_car(rental_list_enum_t flag)
 		scanf("%d", &mileage);
 		if (old_mileage < mileage)
 			break;
-		fprintf(stderr, "\a/!\\ Returned mileage must be greater mileage at the time of rental!\n");
+		fprintf(stderr, "\a/!\\ Returned mileage must be greater than mileage at the time of rental!\n");
 	}
 
 	car_node->car.mileage = mileage;
@@ -242,7 +246,8 @@ void avail_rep_car(void)
 		return;
 
 	list_insert(&available_head, car_node, AVAILABLE);
-	printf("\n*** %s repaired and moved from IN-REPAIR list to AVAILABLE list ***", car_node->car.plate_number);
+	printf("\n*** %s repaired and moved from IN-REPAIR list to AVAILABLE list ***",
+		   car_node->car.plate_number);
 }
 
 /**
@@ -259,6 +264,7 @@ void print_inventory(void)
 		printf("+--------------+----------+----------------------+\n");
 		printf("| Plate Number | Milleage | Expected Return Date |\n");
 		printf("+--------------+----------+----------------------+\n");
+
 		car_list_t *h = rental_list[i];
 
 		while (h)
@@ -290,17 +296,22 @@ void serialize(void)
 		car_list_t *tmp;
 
 		printf("Saving %s ...\n", car_list[i]);
+
 		data = malloc(strlen(header) + 1);
 		strcpy(data, header);
+
 		while (h)
 		{
 			tmp = h;
+
 			bzero(line_buffer, sizeof(line_buffer));
 			sprintf(line_buffer, "%s,", h->car.plate_number);
 			sprintf(line_buffer + strlen(line_buffer), "%d,", h->car.mileage);
 			sprintf(line_buffer + strlen(line_buffer), "%d\n", h->car.exp_ret_date);
+
 			data = realloc(data, strlen(data) + strlen(line_buffer) + 1);
 			strcat(data, line_buffer);
+
 			h = h->next;
 			free(tmp);
 		}
@@ -335,15 +346,17 @@ void load_from_file(void)
 	char *filenames[] = {"AVAILABLE.txt", "RENTED.txt", "REPAIR.txt"};
 	char *car_list[] = {"Available Cars", "Rented Cars", "In-repair Cars"};
 	car_list_t **rental_list[] = {&available_head, &rented_head, &repair_head};
-	char line_buffer[50]; // 30 because max of plate # is 8, milleage is 10, date is 8, 3 commas and \0
+	char line_buffer[50];
 	FILE *file;
 
 	for (int i = 0; i < 3; i++)
 	{
 		printf("Loading %s ...\n", car_list[i]);
+
 		if ((file = fopen(filenames[i], "r")))
 		{
 			fgets(line_buffer, 50, file); // skip headers
+
 			while (fgets(line_buffer, 50, file))
 			{
 				car_list_t *car_node = malloc(sizeof(car_list_t));
@@ -354,14 +367,17 @@ void load_from_file(void)
 					return;
 				}
 
-				bzero(car_node->car.plate_number, 9);
+				bzero(car_node->car.plate_number, PLATE_BUFFER_LEN);
 				strcpy(car_node->car.plate_number, strtok(line_buffer, ",\n"));
+
 				if (exists(car_node->car.plate_number))
 				{
-					fprintf(stderr, "/!\\ Duplicate encountered, %s already exists!\n", car_node->car.plate_number);
+					fprintf(stderr, "/!\\ Duplicate encountered, %s already exists!\n",
+							car_node->car.plate_number);
 					fprintf(stderr, "Skipping... %s\n", car_node->car.plate_number);
 					continue;
 				}
+
 				car_node->car.mileage = atoi(strtok(NULL, ",\n"));
 				car_node->car.exp_ret_date = atoi(strtok(NULL, ",\n"));
 
@@ -401,14 +417,18 @@ void prompt_plate_number(char *plate_number)
 					alpha_check = true;
 					c = toupper(c);
 				}
-				if (isdigit(c))
+				else if (isdigit(c))
+				{
 					number_check = true;
+				}
+
 				if (!isalnum(c))
 				{
 					failed = true;
 					fprintf(stderr, "/!\\ Input must be Aa-Az and 0-9!\n");
 					break;
 				}
+
 				plate_number[i++] = c;
 			}
 			else
@@ -418,6 +438,7 @@ void prompt_plate_number(char *plate_number)
 				break;
 			}
 		}
+
 		if (!failed)
 		{
 			if (strlen(plate_number) < 2)
