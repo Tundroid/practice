@@ -64,7 +64,7 @@ extern car_list_t *available_head;
 extern car_list_t *rented_head;
 extern car_list_t *repair_head;
 
-const char *filenames[] = {"AVAILABLE.txt",
+inline const char *filenames[] = {"AVAILABLE.txt",
 						   "RENTED.txt",
 						   "REPAIR.txt"};
 const char *car_list[] = {"Available Cars",
