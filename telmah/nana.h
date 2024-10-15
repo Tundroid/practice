@@ -70,7 +70,7 @@ static const char *filenames[] = {"AVAILABLE.txt",
 static const char *car_list[] = {"Available Cars",
 						  "Rented Cars",
 						  "In-repair Cars"};
-static car_list_t **rental_list[] = {&available_head,
+s car_list_t **rental_list[] = {&available_head,
 									&rented_head,
 									&repair_head};
 
