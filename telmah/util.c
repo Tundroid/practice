@@ -286,7 +286,6 @@ void serialize(void)
 	char *car_list[] = {"Available Cars", "Rented Cars", "In-repair Cars"};
 	car_list_t *rental_list[] = {available_head, rented_head, repair_head};
 	char line_buffer[30]; // 30 because max of plate # is 8, milleage is 10, date is 8, 3 commas and \0
-	char *header = "Plate Number, Mileage, Expected Return Date\n";
 
 	char *data;
 
@@ -297,8 +296,8 @@ void serialize(void)
 
 		printf("Saving %s ...\n", car_list[i]);
 
-		data = malloc(strlen(header) + 1);
-		strcpy(data, header);
+		data = malloc(strlen(HEADER) + 1);
+		strcpy(data, HEADER);
 
 		while (h)
 		{
