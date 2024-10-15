@@ -9,6 +9,7 @@ const char *filenames[] = {"AVAILABLE.txt",
 const char *car_list[] = {"Available Cars",
 						  "Rented Cars",
 						  "In-repair Cars"};
+car_list_t **rental_list[3];
 
 /**
  * print_menu - prints app menu
