@@ -114,7 +114,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 /**
  * add_new_car - adds a new car node to available list
  */
-void add_new_car(void)J
+void add_new_car(void)
 {
 	car_list_t *car_node = malloc(sizeof(car_list_t));
 
