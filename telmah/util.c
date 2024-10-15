@@ -343,9 +343,6 @@ void save_to_file(const char *data, const char *filename)
  */
 void load_from_file(void)
 {
-	char *filenames[] = {"AVAILABLE.txt", "RENTED.txt", "REPAIR.txt"};
-	char *car_list[] = {"Available Cars", "Rented Cars", "In-repair Cars"};
-	car_list_t **rental_list[] = {&available_head, &rented_head, &repair_head};
 	char line_buffer[50];
 	FILE *file;
 
@@ -533,8 +530,6 @@ bool is_leap_year(int year)
  */
 bool exists(char *plate_number)
 {
-	car_list_t *rental_list[] = {available_head, rented_head, repair_head};
-
 	for (int i = 0; i < 3; i++)
 	{
 		car_list_t *tmp = rental_list[i];

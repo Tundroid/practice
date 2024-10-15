@@ -46,7 +46,7 @@ typedef struct car_list
 
 /**
  * enum rental_list_enum - enumeration for rental list types
- * @AVAILABE: for available cars
+ * @AVAILABLE: for available cars
  * @RENTED: for rented cars
  * @IN_REPAIR: for cars in repair
  *
@@ -63,9 +63,15 @@ extern car_list_t *available_head;
 extern car_list_t *rented_head;
 extern car_list_t *repair_head;
 
-const char *filenames[] = {"AVAILABLE.txt", "RENTED.txt", "REPAIR.txt"};
-const char *car_list[] = {"Available Cars", "Rented Cars", "In-repair Cars"};
-car_list_t **rental_list[] = {&available_head, &rented_head, &repair_head};
+const char *filenames[] = {"AVAILABLE.txt",
+						   "RENTED.txt",
+						   "REPAIR.txt"};
+const char *car_list[] = {"Available Cars",
+						  "Rented Cars",
+						  "In-repair Cars"};
+const car_list_t **rental_list[] = {&available_head,
+									&rented_head,
+									&repair_head};
 
 void add_new_car(void);
 void avail_rep_car(void);
