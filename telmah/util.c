@@ -10,8 +10,8 @@ const char *car_list[] = {"Available Cars",
 						  "Rented Cars",
 						  "In-repair Cars"};
 car_list_t **rental_list[] = {&available_head,
-									&rented_head,
-									&repair_head};
+							  &rented_head,
+							  &repair_head};
 
 /**
  * print_menu - prints app menu
@@ -31,24 +31,21 @@ void print_menu(void)
 
 /**
  * list_insert - inserts a car node into a list
- * @head: of linked list
  * @car_node: to be inserted
- * @flag: to determine insertion order
+ * @flag: to determine list and insertion order
  */
-void list_insert(car_list_t **head, car_list_t *car_node, rental_list_enum_t flag)
+void list_insert(car_list_t *car_node, rental_list_enum_t flag)
 {
-	if (!head)
+	car_list_t *head = rental_list[flag];
+
+	if (!head || flag == IN_REPAIR)
 	{
-		fprintf(stderr, "\a/!\\ No list!");
-	}
-	else if (!*head || flag == IN_REPAIR)
-	{
-		car_node->next = *head;
-		*head = car_node;
+		car_node->next = head;
+		head = car_node;
 	}
 	else
 	{
-		car_list_t *tmp = *head;
+		car_list_t *tmp = head;
 		car_list_t *prev = NULL;
 
 		while (tmp)
@@ -60,7 +57,7 @@ void list_insert(car_list_t **head, car_list_t *car_node, rental_list_enum_t fla
 			{
 				car_node->next = tmp;
 				if (!prev)
-					*head = car_node;
+					head = car_node;
 				else
 					prev->next = car_node;
 				break;
@@ -78,23 +75,25 @@ void list_insert(car_list_t **head, car_list_t *car_node, rental_list_enum_t fla
 
 /**
  * list_remove - removes a car node from a list
- * @head: of linked list
+
  * @plate_number: of car to be remove
- * @flag: to determine deletion order
+ * @flag: to determine list and deletion order
  */
-car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_t flag)
+car_list_t *list_remove(char *plate_number, rental_list_enum_t flag)
 {
-	if (!head || !*head)
+	car_list_t *head = rental_list[flag];
+
+	if (!head)
 	{
-		fprintf(stderr, "\a/!\\ No or empty list!");
+		fprintf(stderr, "\a/!\\ Empty list!");
 	}
 	else
 	{
-		car_list_t *tmp = *head;
+		car_list_t *tmp = head;
 
 		if (flag == AVAILABLE)
 		{
-			*head = (*head)->next;
+			head = head->next;
 			tmp->next = NULL;
 			return (tmp);
 		}
@@ -109,7 +108,7 @@ car_list_t *list_remove(car_list_t **head, char *plate_number, rental_list_enum_
 					car_list_t *ret = tmp;
 
 					if (!prev)
-						*head = (*head)->next;
+						head = head->next;
 					else
 						prev->next = tmp->next;
 					ret->next = NULL;
@@ -151,7 +150,7 @@ void add_new_car(void)
 	car_node->car.exp_ret_date = -1;
 	car_node->next = NULL;
 
-	list_insert(&available_head, car_node, AVAILABLE);
+	list_insert(car_node, AVAILABLE);
 	printf("\n*** New car %s with mileage %d added to AVAILABLE list ***",
 		   car_node->car.plate_number, car_node->car.mileage);
 }
@@ -171,11 +170,11 @@ void rent_car(void)
 
 	/* NULL is passed here because the function will
 	 not be searching through the list bur rather removes the head if available */
-	car_list_t *car_node = list_remove(&available_head, NULL, AVAILABLE);
+	car_list_t *car_node = list_remove(NULL, AVAILABLE);
 
 	if (car_node)
 	{
-		list_insert(&rented_head, car_node, RENTED);
+		list_insert(car_node, RENTED);
 		printf("\n*** Rented out car %s with mileage %d and expected return on %d ***",
 			   car_node->car.plate_number, car_node->car.mileage, car_node->car.exp_ret_date);
 		printf("\n*** %s moved from AVAILABLE list to RENTED list ***", car_node->car.plate_number);
@@ -200,7 +199,7 @@ void return_car(rental_list_enum_t flag)
 
 	prompt_plate_number(plate_number);
 
-	car_list_t *car_node = list_remove(&rented_head, plate_number, RENTED);
+	car_list_t *car_node = list_remove(plate_number, RENTED);
 
 	if (!car_node)
 		return;
@@ -219,7 +218,7 @@ void return_car(rental_list_enum_t flag)
 	car_node->car.mileage = mileage;
 	car_node->car.exp_ret_date = -1;
 
-	list_insert(flag == AVAILABLE ? &available_head : &repair_head, car_node, flag);
+	list_insert(car_node, flag);
 
 	extra_kms = mileage - old_mileage - FLAT_RATE_KM_MAX;
 	charge = FLAT_RATE + (extra_kms > 0 ? extra_kms * EXTRA_RATE_PER_KM : 0.0f);
@@ -253,12 +252,12 @@ void avail_rep_car(void)
 
 	prompt_plate_number(plate_number);
 
-	car_list_t *car_node = list_remove(&repair_head, plate_number, IN_REPAIR);
+	car_list_t *car_node = list_remove(plate_number, IN_REPAIR);
 
 	if (!car_node)
 		return;
 
-	list_insert(&available_head, car_node, AVAILABLE);
+	list_insert(car_node, AVAILABLE);
 	printf("\n*** %s repaired and moved from IN-REPAIR list to AVAILABLE list ***",
 		   car_node->car.plate_number);
 }
@@ -268,7 +267,7 @@ void avail_rep_car(void)
  */
 void print_inventory(void)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = AVAILABLE; i <= IN_REPAIR; i++)
 	{
 		printf("(((%s)))\n", car_list[i]);
 		printf("+--------------+----------+----------------------+\n");
@@ -295,7 +294,7 @@ void serialize(void)
 	char line_buffer[30]; // 30 because max of plate # is 8, milleage is 10, date is 8, 3 commas and \0
 	char *data;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = AVAILABLE; i <= IN_REPAIR; i++)
 	{
 		car_list_t *h = *rental_list[i];
 		car_list_t *tmp;
@@ -351,7 +350,7 @@ void load_from_file(void)
 	char line_buffer[50];
 	FILE *file;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = AVAILABLE; i <= IN_REPAIR; i++)
 	{
 		printf("Loading %s ...\n", car_list[i]);
 
@@ -383,7 +382,7 @@ void load_from_file(void)
 				car_node->car.mileage = atoi(strtok(NULL, ",\n"));
 				car_node->car.exp_ret_date = atoi(strtok(NULL, ",\n"));
 
-				list_insert(rental_list[i], car_node, i);
+				list_insert(car_node, i);
 			}
 			fclose(file);
 		}
@@ -535,7 +534,7 @@ bool is_leap_year(int year)
  */
 bool exists(char *plate_number)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = AVAILABLE; i <= IN_REPAIR; i++)
 	{
 		car_list_t *tmp = *rental_list[i];
 
