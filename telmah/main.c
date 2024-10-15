@@ -21,7 +21,9 @@
 
 #include "nana.h"
 
-
+car_list_t *available_head = NULL;
+car_list_t *rented_head = NULL;
+car_list_t *repair_head = NULL;
 
 /**
  * main - check the code
