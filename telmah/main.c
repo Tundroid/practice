@@ -29,7 +29,6 @@
 int main(void)
 {
 	int action;
-	printf
 
 	printf("Loading data from file(s)...\n");
 	load_from_file();
