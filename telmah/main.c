@@ -28,6 +28,10 @@
  */
 int main(void)
 {
+	
+car_list_t **rental_list[] = {&available_head,
+							  &rented_head,
+							  &repair_head};
 	int action;
 	printf("1. %p\n", available_head);
 	printf("2. %p\n", &available_head);
