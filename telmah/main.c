@@ -29,7 +29,7 @@
 int main(void)
 {
 	int action;
-	printf("1.")
+	printf()
 
 	printf("Loading data from file(s)...\n");
 	load_from_file();
