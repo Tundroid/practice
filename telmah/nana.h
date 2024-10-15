@@ -70,7 +70,7 @@ extern const char *filenames[] = {"AVAILABLE.txt",
 extern const char *car_list[] = {"Available Cars",
 						  "Rented Cars",
 						  "In-repair Cars"};
-exter car_list_t **rental_list[] = {&available_head,
+ex car_list_t **rental_list[] = {&available_head,
 									&rented_head,
 									&repair_head};
 
